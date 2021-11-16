@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace SenaiChamados.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UsuarioRepository : IUsuarioRepository
     {
+        public Usuario BuscarEmailSenha(object email, object senha)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(int id)
         {
             throw new NotImplementedException();

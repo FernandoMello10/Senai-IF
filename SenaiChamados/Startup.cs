@@ -37,8 +37,8 @@ namespace SenaiChamados
             });
 
             // Dependency injection
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IUserApplication, UserApplication>();
+            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<IUsuarioApplication, UsuarioApplication>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

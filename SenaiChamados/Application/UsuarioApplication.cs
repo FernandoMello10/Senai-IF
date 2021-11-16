@@ -9,35 +9,35 @@ using System.Threading.Tasks;
 
 namespace SenaiChamados.Application
 {
-    public class UserApplication : IUserApplication
+    public class UsuarioApplication : IUsuarioApplication
     {
-        private IUserRepository _repo;
+        private IUsuarioRepository _repository;
         
-        public UserApplication(IUserRepository userRepository)
+        public UsuarioApplication(IUsuarioRepository userRepository)
         {
-            _repo = userRepository;
+            _repository = userRepository;
         }
 
         public void Delete(int id)
         {
-            _repo.Delete(id);
+            _repository.Delete(id);
         }
 
         public IEnumerable<User> GetAll()
         {
-            return _repo.GetAll();
+            return _repository.GetAll();
         }
 
         public User GetByID(int id)
         {
-            return _repo.GetByID(id);
+            return _repository.GetByID(id);
         }
 
         public bool Login(string email, string password)
         {
             var hashedPassword = CreateMD5(password);
 
-            var userExists = _repo.Login(email, hashedPassword);
+            var userExists = _repository.Login(email, hashedPassword);
 
             return userExists;
         }
@@ -46,12 +46,12 @@ namespace SenaiChamados.Application
         {
             newModel.Password = CreateMD5(newModel.Password);
 
-            _repo.Save(newModel);
+            _repository.Save(newModel);
         }
 
         public void Update(User updatedModel)
         {
-            _repo.Update(updatedModel);
+            _repository.Update(updatedModel);
         }
 
         private static string CreateMD5(string input)

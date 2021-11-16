@@ -12,11 +12,11 @@ namespace SenaiChamados.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UsuarioController : ControllerBase
     {
-        private readonly IUserApplication _application;
+        private readonly IUsuarioApplication _application;
 
-        public UserController(IUserApplication userApplication)
+        public UsuarioController(IUsuarioApplication userApplication)
         {
             _application = userApplication;
         }
