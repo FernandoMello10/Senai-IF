@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SenaiChamados.Application;
+using SenaiChamados.Hubs;
 using SenaiChamados.Interfaces;
 using SenaiChamados.Interfaces.Application;
 using SenaiChamados.Repositories;
@@ -39,6 +40,7 @@ namespace SenaiChamados
             // Dependency injection
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserApplication, UserApplication>();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +60,7 @@ namespace SenaiChamados
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChamadoHub>("/chamadohub");
             });
         }
     }

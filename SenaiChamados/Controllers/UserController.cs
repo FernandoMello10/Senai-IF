@@ -19,6 +19,7 @@ namespace SenaiChamados.Controllers
         public UserController(IUserApplication userApplication)
         {
             _application = userApplication;
+
         }
 
         /// <summary>
@@ -42,8 +43,7 @@ namespace SenaiChamados.Controllers
         {
             try
             {
-                var userExists = _application.Login(email,password);
-
+                var userExists = _application.Login(email, password);
 
                 return Ok();
             }
