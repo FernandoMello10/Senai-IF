@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SenaiChamados.Interfaces.Application
 {
-    public interface IUserApplication
+    public interface IUsuarioApplication
     {
         IEnumerable<User> GetAll();
         void Save(User newModel);
