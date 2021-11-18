@@ -1,4 +1,4 @@
-﻿using SenaiChamados.Domain;
+﻿using SenaiChamados.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +8,10 @@ namespace SenaiChamados.Interfaces.Application
 {
     public interface IUsuarioApplication
     {
-        IEnumerable<User> GetAll();
-        void Save(User newModel);
-        void Update(User updatedModel);
+        IEnumerable<Usuario> GetAll();
+        void Save(Usuario newModel);
+        void Update(Usuario updatedModel);
         void Delete(int id);
-        User GetByID(int id);
-        bool Login(string email, string password);
+        Usuario GetByID(int id);
     }
 }

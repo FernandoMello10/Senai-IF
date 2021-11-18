@@ -1,4 +1,4 @@
-USE projeto_if;
+USE SenaiChamados;
 
 SELECT * FROM TipoUsuario;
 SELECT * FROM Setor;

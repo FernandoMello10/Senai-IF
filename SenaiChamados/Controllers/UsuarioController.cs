@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SenaiChamados.Domain;
 using SenaiChamados.Interfaces.Application;
+using SenaiChamados.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,36 +16,18 @@ namespace SenaiChamados.Controllers
     {
         private readonly IUsuarioApplication _application;
 
-        public UsuarioController(IUsuarioApplication userApplication)
+        public UsuarioController(IUsuarioApplication UsuarioApplication)
         {
-            _application = userApplication;
+            _application = UsuarioApplication;
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
-        public IEnumerable<User> GetAll()
-        {
-            return _application.GetAll();
-        }
-
-        [HttpPost]
-        public User GetByID(int id)
-        {
-            return _application.GetByID(id);
-        }
-
-        [HttpPost()]
-        public IActionResult Login(string email, string password)
+        public IActionResult GetAll()
         {
             try
             {
-                var userExists = _application.Login(email, password);
-
-                return Ok();
+                return Ok(_application.GetAll());
             }
             catch
             {
@@ -53,7 +35,20 @@ namespace SenaiChamados.Controllers
             }
         }
 
-        public IActionResult Save(User newModel)
+        [HttpPost]
+        public IActionResult GetByID(int id)
+        {
+            try
+            {
+                return Ok(_application.GetByID(id));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        public IActionResult Save(Usuario newModel)
         {
             try
             {
@@ -66,7 +61,7 @@ namespace SenaiChamados.Controllers
             }
         }
 
-        public IActionResult Update(User updatedModel)
+        public IActionResult Update(Usuario updatedModel)
         {
             try
             {

@@ -1,4 +1,4 @@
-USE projeto_if;
+USE SenaiChamados;
 
 INSERT INTO TipoUsuario(Descricao)
 VALUES              ('Administrador'),

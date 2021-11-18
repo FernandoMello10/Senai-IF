@@ -1,5 +1,5 @@
-﻿using SenaiChamados.Domain;
-using SenaiChamados.Interfaces;
+﻿using SenaiChamados.Interfaces;
+using SenaiChamados.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,16 @@ namespace SenaiChamados.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        public Usuario BuscarEmailSenha(object email, object senha)
+        private SenaiChamadosContext _ctx { get; set; }
+
+        public UsuarioRepository(SenaiChamadosContext ctx)
         {
-            throw new NotImplementedException();
+            _ctx = ctx;
+        }
+
+        public Usuario BuscarEmailSenha(string email, string senha)
+        {
+            return _ctx.Usuarios.FirstOrDefault(x => x.Email == email && x.Senha == senha);
         }
 
         public void Delete(int id)
@@ -19,12 +26,12 @@ namespace SenaiChamados.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<Usuario> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public User GetByID(int id)
+        public Usuario GetByID(int id)
         {
             throw new NotImplementedException();
         }
@@ -34,12 +41,12 @@ namespace SenaiChamados.Repositories
             throw new NotImplementedException();
         }
 
-        public void Save(User newModel)
+        public void Save(Usuario newModel)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(User updatedModel)
+        public void Update(Usuario updatedModel)
         {
             throw new NotImplementedException();
         }

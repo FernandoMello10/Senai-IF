@@ -1,5 +1,5 @@
-CREATE DATABASE projeto_if;
-USE projeto_if;
+CREATE DATABASE SenaiChamados;
+USE SenaiChamados;
 
 CREATE TABLE TipoUsuario (
     Id INT AUTO_INCREMENT PRIMARY KEY,

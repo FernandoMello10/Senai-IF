@@ -1,6 +1,7 @@
-﻿using SenaiChamados.Domain;
+﻿using SenaiChamados.Helpers;
 using SenaiChamados.Interfaces;
 using SenaiChamados.Interfaces.Application;
+using SenaiChamados.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,65 +12,43 @@ namespace SenaiChamados.Application
 {
     public class UsuarioApplication : IUsuarioApplication
     {
-        private IUsuarioRepository _repository;
-        
-        public UsuarioApplication(IUsuarioRepository userRepository)
+        private readonly IUsuarioRepository _repo;
+
+        public UsuarioApplication(IUsuarioRepository UsuarioRepository)
         {
-            _repository = userRepository;
+            _repo = UsuarioRepository;
         }
 
         public void Delete(int id)
         {
-            _repository.Delete(id);
+            _repo.Delete(id);
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<Usuario> GetAll()
         {
-            return _repository.GetAll();
+            return _repo.GetAll();
         }
 
-        public User GetByID(int id)
+        public Usuario GetByID(int id)
         {
-            return _repository.GetByID(id);
+            return _repo.GetByID(id);
         }
 
-        public bool Login(string email, string password)
+        public void Save(Usuario newModel)
         {
-            var hashedPassword = CreateMD5(password);
+            newModel.Senha = CrytographyHelper.CreateMD5(newModel.Senha);
 
-            var userExists = _repository.Login(email, hashedPassword);
-
-            return userExists;
+            _repo.Save(newModel);
         }
 
-        public void Save(User newModel)
+        public void Update(Usuario updatedModel)
         {
-            newModel.Password = CreateMD5(newModel.Password);
-
-            _repository.Save(newModel);
+            _repo.Update(updatedModel);
         }
 
-        public void Update(User updatedModel)
+        IEnumerable<Usuario> IUsuarioApplication.GetAll()
         {
-            _repository.Update(updatedModel);
-        }
-
-        private static string CreateMD5(string input)
-        {
-            // Use input string to calculate MD5 hash
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
-            {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-                // Convert the byte array to hexadecimal string
-                var sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    sb.Append(hashBytes[i].ToString("X2"));
-                }
-                return sb.ToString();
-            }
+            throw new NotImplementedException();
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SenaiChamados.Hubs
 {
-    public class ChamadoHub: Hub
+    public class ChamadoHub : Hub
     {
-        public async Task Announce(string chamado)
-        {
-            //Clients.All.SendAsync();
-        }
+        //public async Task Announce(string chamado)
+        //{
+        //    Clients.All.SendAsync();
+        //}
     }
 }

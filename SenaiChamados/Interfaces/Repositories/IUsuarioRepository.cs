@@ -1,4 +1,4 @@
-﻿using SenaiChamados.Domain;
+﻿using SenaiChamados.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace SenaiChamados.Interfaces
 {
-    public interface IUsuarioRepository : IRepository<User>
+    public interface IUsuarioRepository : IRepository<Usuario>
     {
-        bool Login(string email, string password);
-        Usuario BuscarEmailSenha(object email, object senha);
+        Usuario BuscarEmailSenha(string email, string senha);
     }
 }

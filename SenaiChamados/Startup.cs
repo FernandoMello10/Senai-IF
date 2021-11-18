@@ -1,15 +1,18 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SenaiChamados.Application;
 using SenaiChamados.Hubs;
 using SenaiChamados.Interfaces;
 using SenaiChamados.Interfaces.Application;
+using SenaiChamados.Models;
 using SenaiChamados.Repositories;
 using System;
 using System.Collections.Generic;
@@ -30,17 +33,63 @@ namespace SenaiChamados
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SenaiChamados", Version = "v1" });
             });
-
-            // Dependency injection
-            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
-            services.AddTransient<IUsuarioApplication, UsuarioApplication>();
             services.AddSignalR();
+
+            SetupDbContext(services);
+            SetupDependencyInjection(services);
+            SetupJwtToken(services);
+        }
+
+        private static void SetupDbContext(IServiceCollection services)
+        {
+            var connectionString = "server=localhost;user=root;password=Senai@132;database=SenaiChamados";
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
+            
+            services.AddDbContext<SenaiChamadosContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(connectionString, serverVersion)
+                    // The following three options help with debugging, but should
+                    // be changed or removed for production.
+                    .LogTo(Console.WriteLine, LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors()
+            );
+        }
+
+        private static void SetupJwtToken(IServiceCollection services)
+        {
+            services
+               .AddAuthentication(options =>
+               {
+                   options.DefaultAuthenticateScheme = "JwtBearer";
+                   options.DefaultChallengeScheme = "JwtBearer";
+               })
+               .AddJwtBearer("JwtBearer", options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = true,
+                       ValidateAudience = true,
+                       ValidateLifetime = true,
+                       IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("chave-autenticacao-senaichamados")),
+                       ClockSkew = TimeSpan.FromMinutes(30),
+                       ValidIssuer = "SenaiChamados",
+                       ValidAudience = "SenaiChamados"
+                   };
+               });
+
+        }
+
+        private static void SetupDependencyInjection(IServiceCollection services)
+        {
+            services.AddTransient<IUsuarioApplication, UsuarioApplication>();
+            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
