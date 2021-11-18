@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SenaiChamados.Interfaces.Application;
 using SenaiChamados.Models;
+using SenaiChamados.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,27 @@ namespace SenaiChamados.Controllers
         {
             _application = UsuarioApplication;
 
+        }
+
+        //POST api/usuario/login
+        /// <summary>
+        /// Autentica um usuário através de email e senha.
+        /// </summary>
+        /// <param name="loginModel">Input para o login contendo email e senha do usuário</param>
+        /// <returns>Token de autorização JWT - StatusCode 200</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [HttpPost("login")]
+        public IActionResult Login(LoginViewModel loginModel)
+        {
+            try 
+            {
+                return Ok(_application.Login(loginModel));
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]
