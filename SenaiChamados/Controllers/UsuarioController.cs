@@ -37,7 +37,12 @@ namespace SenaiChamados.Controllers
         {
             try 
             {
-                return Ok(_application.Login(loginModel));
+                var tokenModel = _application.Login(loginModel);
+
+                if (tokenModel is null)
+                    return StatusCode(401, "Email e/ou senha incorretos");
+
+                return Ok(tokenModel);
             }
             catch
             {
