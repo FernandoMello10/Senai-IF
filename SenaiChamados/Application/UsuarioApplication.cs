@@ -40,7 +40,7 @@ namespace SenaiChamados.Application
 
         public TokenViewModel Login(LoginViewModel loginModel)
         {
-            var usuarioLogado = _repo.BuscarEmailSenha(loginModel.Email, CryptographyHelper.CreateMD5(loginModel.Senha));
+            var usuarioLogado = _repo.BuscarEmailSenha(loginModel.Email, CryptographyHelper.ToMD5(loginModel.Senha));
 
             if (usuarioLogado == null)
                 return null;
@@ -73,7 +73,7 @@ namespace SenaiChamados.Application
 
         public void Save(Usuario newModel)
         {
-            newModel.Senha = CryptographyHelper.CreateMD5(newModel.Senha);
+            newModel.Senha = CryptographyHelper.ToMD5(newModel.Senha);
 
             _repo.Save(newModel);
         }
