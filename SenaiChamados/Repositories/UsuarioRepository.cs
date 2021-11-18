@@ -9,7 +9,7 @@ namespace SenaiChamados.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private SenaiChamadosContext _ctx { get; set; }
+        private readonly SenaiChamadosContext _ctx; 
 
         public UsuarioRepository(SenaiChamadosContext ctx)
         {

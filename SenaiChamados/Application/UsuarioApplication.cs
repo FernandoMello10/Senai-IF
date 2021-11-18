@@ -40,7 +40,7 @@ namespace SenaiChamados.Application
 
         public TokenViewModel Login(LoginViewModel loginModel)
         {
-            var usuarioLogado = _repo.BuscarEmailSenha(loginModel.Email, loginModel.Senha);
+            var usuarioLogado = _repo.BuscarEmailSenha(loginModel.Email, CryptographyHelper.CreateMD5(loginModel.Senha));
 
             if (usuarioLogado == null)
                 return null;
@@ -53,7 +53,7 @@ namespace SenaiChamados.Application
                 new Claim("role", usuarioLogado.IdTipoUsuario.ToString())
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("SenaiChamados"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SenaiChamados"));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -73,7 +73,7 @@ namespace SenaiChamados.Application
 
         public void Save(Usuario newModel)
         {
-            newModel.Senha = CrytographyHelper.CreateMD5(newModel.Senha);
+            newModel.Senha = CryptographyHelper.CreateMD5(newModel.Senha);
 
             _repo.Save(newModel);
         }
