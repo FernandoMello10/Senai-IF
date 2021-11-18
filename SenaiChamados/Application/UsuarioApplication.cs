@@ -53,7 +53,7 @@ namespace SenaiChamados.Application
                 new Claim("role", usuarioLogado.IdTipoUsuario.ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SenaiChamados"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("chave-autenticacao-senaichamados"));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
