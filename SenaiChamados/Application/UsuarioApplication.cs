@@ -2,15 +2,15 @@
 using SenaiChamados.Helpers;
 using SenaiChamados.Interfaces;
 using SenaiChamados.Interfaces.Application;
-using SenaiChamados.Models;
+using SenaiChamados.Domain;
 using SenaiChamados.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using SenaiChamados.Models.Enums;
+using System.Text.RegularExpressions;
 
 namespace SenaiChamados.Application
 {
@@ -23,19 +23,66 @@ namespace SenaiChamados.Application
             _repo = UsuarioRepository;
         }
 
-        public void Delete(int id)
+        #region Cadastrar
+        public void Cadastrar(CadastroViewModel cadastroModel)
         {
-            _repo.Delete(id);
+            ValidarModeloNovo(cadastroModel, out var telefoneApenasNumeros);
+
+            var dto = new UsuarioDTO
+            {
+                IdTipoUsuario = (int)TipoUsuario.Funcionário,
+                IdSetor = cadastroModel.SetorID,
+                Nome = cadastroModel.Nome,
+                Email = cadastroModel.Email,
+                Senha = CryptographyHelper.ToMD5(cadastroModel.Senha),
+                Telefone = FormatarTelefone(telefoneApenasNumeros)
+            };
+
+            _repo.Salvar(dto);
         }
 
-        public IEnumerable<Usuario> GetAll()
+        private void ValidarModeloNovo(CadastroViewModel cadastroModel, out string telefoneApenasNumeros)
         {
-            return _repo.GetAll();
+            telefoneApenasNumeros = new Regex("[^a-zA-Z0-9 -]").Replace(cadastroModel.Telefone, "");
+
+            if (telefoneApenasNumeros.Length != 10 && telefoneApenasNumeros.Length != 11)
+                throw new ArgumentException("Telefone inválido");
+
+            var usuario = _repo.BuscarPorEmail(cadastroModel.Email);
+
+            if (usuario != null)
+                throw new ArgumentException("Email já cadastrado");
         }
 
-        public Usuario GetByID(int id)
+        private static string FormatarTelefone(string telefoneApenasNumeros)
         {
-            return _repo.GetByID(id);
+            var ddd = telefoneApenasNumeros.Substring(0, 2);
+
+            bool ehCelular = telefoneApenasNumeros.Length == 11;
+
+            var tamanhoPrimeiraParte = ehCelular ? 5 : 4;
+            string primeiraSequenciaTel = telefoneApenasNumeros.Substring(2, tamanhoPrimeiraParte);
+
+            var indiceComecoSegundaParte = ehCelular ? 7 : 6;
+            string segundaSequenciaTel = telefoneApenasNumeros.Substring(indiceComecoSegundaParte, 4);
+
+            return $"({ddd}) {primeiraSequenciaTel}-{segundaSequenciaTel}";
+        }
+        #endregion Cadastrar
+
+        public void Deletar(int id)
+        {
+            _repo.Deletar(id);
+        }
+
+        public IEnumerable<UsuarioDTO> BuscarTodos()
+        {
+            return _repo.BuscarTodos();
+        }
+
+        public UsuarioDTO BuscarPorID(int id)
+        {
+            return _repo.BuscarPorID(id);
         }
 
         public TokenViewModel Login(LoginViewModel loginModel)
@@ -71,16 +118,16 @@ namespace SenaiChamados.Application
             };
         }
 
-        public void Save(Usuario newModel)
+        public void Cadastrar(UsuarioDTO modeloNovo)
         {
-            newModel.Senha = CryptographyHelper.ToMD5(newModel.Senha);
+            modeloNovo.Senha = CryptographyHelper.ToMD5(modeloNovo.Senha);
 
-            _repo.Save(newModel);
+            _repo.Salvar(modeloNovo);
         }
 
-        public void Update(Usuario updatedModel)
+        public void Atualizar(UsuarioDTO modeloAtualizado)
         {
-            _repo.Update(updatedModel);
+            _repo.Atualizar(modeloAtualizado);
         }
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SenaiChamados.Interfaces.Application;
-using SenaiChamados.Models;
+using SenaiChamados.Domain;
 using SenaiChamados.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -21,21 +21,20 @@ namespace SenaiChamados.Controllers
         public UsuarioController(IUsuarioApplication UsuarioApplication)
         {
             _application = UsuarioApplication;
-
         }
 
         //POST api/usuario/login
         /// <summary>
         /// Autentica um usuário através de email e senha.
         /// </summary>
-        /// <param name="loginModel">Input para o login contendo email e senha do usuário</param>
-        /// <returns>Token de autorização JWT - StatusCode 200</returns>
+        /// <param name="loginModel">Modelo de input para o login</param>
+        /// <returns>Token de autorização JWT - StatusCode 200 ou StatusCode 400</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPost("login")]
         public IActionResult Login(LoginViewModel loginModel)
         {
-            try 
+            try
             {
                 var tokenModel = _application.Login(loginModel);
 
@@ -50,55 +49,78 @@ namespace SenaiChamados.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+        //POST api/Usuario
+        /// <summary>
+        /// Cadastra um usuário.
+        /// </summary>
+        /// <param name="cadastroModel">Modelo de input para o cadastro</param>
+        /// <returns>StatusCode 200 ou StatusCode 400</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost]
+        public IActionResult Cadastrar(CadastroViewModel cadastroModel)
         {
             try
             {
-                return Ok(_application.GetAll());
+                _application.Cadastrar(cadastroModel);
+
+                return Ok();
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult BuscarTodos()
+        {
+            try
+            {
+                return Ok(_application.BuscarTodos());
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
             }
         }
 
         [HttpPost]
-        public IActionResult GetByID(int id)
+        public IActionResult BuscarPorID(int id)
         {
             try
             {
-                return Ok(_application.GetByID(id));
+                return Ok(_application.BuscarPorID(id));
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
 
-        public IActionResult Save(Usuario newModel)
+        public IActionResult Salvar(UsuarioDTO modeloNovo)
         {
             try
             {
-                _application.Save(newModel);
+                _application.Cadastrar(modeloNovo);
                 return StatusCode(204);
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
 
-        public IActionResult Update(Usuario updatedModel)
+        public IActionResult Atualizar(UsuarioDTO modeloAtualizado)
         {
             try
             {
-                _application.Update(updatedModel);
+                _application.Atualizar(modeloAtualizado);
                 return Ok();
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
     }

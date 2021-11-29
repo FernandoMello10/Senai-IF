@@ -12,12 +12,13 @@ using SenaiChamados.Application;
 using SenaiChamados.Hubs;
 using SenaiChamados.Interfaces;
 using SenaiChamados.Interfaces.Application;
-using SenaiChamados.Models;
+using SenaiChamados.Domain;
 using SenaiChamados.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SenaiChamados.Models;
 
 namespace SenaiChamados
 {
@@ -48,7 +49,7 @@ namespace SenaiChamados
 
         private static void SetupDbContext(IServiceCollection services)
         {
-            var connectionString = "server=localhost;user=root;password=Senai@132;database=SenaiChamados";
+            var connectionString = "server=localhost;user=root;senha=Senai@132;database=SenaiChamados";
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
             
             services.AddDbContext<SenaiChamadosContext>(
@@ -83,13 +84,18 @@ namespace SenaiChamados
                        ValidAudience = "SenaiChamados"
                    };
                });
-
         }
 
         private static void SetupDependencyInjection(IServiceCollection services)
         {
             services.AddTransient<IUsuarioApplication, UsuarioApplication>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+
+            services.AddTransient<IGenericApplication<UsuarioModel>, GenericApplication<UsuarioModel, UsuarioDTO>>();
+            services.AddTransient<IGenericApplication<SetorModel>, GenericApplication<SetorModel, SetorDTO>>();
+
+            services.AddTransient<IGenericRepository<UsuarioDTO>, GenericRepository<UsuarioDTO>>();
+            services.AddTransient<IGenericRepository<SetorDTO>, GenericRepository<SetorDTO>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -36,7 +36,7 @@ VALUES				('Baixa'),
                     
 INSERT INTO StatusChamado(Descricao)
 VALUES				('Aberto'),
-					('Andamento'),
+					('Em andamento'),
                     ('Concluido');
 
 INSERT INTO Chamado(IdPrioridade, IdStatus, IdAutor, IdResponsavel, Descricao, Lugar, DataAbertura, DataDeFinalicao)

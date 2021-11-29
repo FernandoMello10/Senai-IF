@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using SenaiChamados.Models;
+using SenaiChamados.Domain;
 
 #nullable disable
 
-namespace SenaiChamados.Models
+namespace SenaiChamados.Domain
 {
     public partial class SenaiChamadosContext : DbContext
     {
@@ -18,14 +18,14 @@ namespace SenaiChamados.Models
         {
         }
 
-        public virtual DbSet<Chamado> Chamados { get; set; }
-        public virtual DbSet<Material> Materials { get; set; }
-        public virtual DbSet<Prioridade> Prioridades { get; set; }
-        public virtual DbSet<RegistroMaterial> Registromateriais { get; set; }
-        public virtual DbSet<Setor> Setors { get; set; }
-        public virtual DbSet<StatusChamado> Statuschamados { get; set; }
-        public virtual DbSet<TipoUsuario> Tipousuarios { get; set; }
-        public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<ChamadoDTO> Chamados { get; set; }
+        public virtual DbSet<MaterialDTO> Materials { get; set; }
+        public virtual DbSet<PrioridadeDTO> Prioridades { get; set; }
+        public virtual DbSet<RegistroMaterialDTO> Registromateriais { get; set; }
+        public virtual DbSet<SetorDTO> Setors { get; set; }
+        public virtual DbSet<StatusChamadoDTO> Statuschamados { get; set; }
+        public virtual DbSet<TipoUsuarioDTO> Tipousuarios { get; set; }
+        public virtual DbSet<UsuarioDTO> Usuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,7 +41,7 @@ namespace SenaiChamados.Models
             modelBuilder.HasCharSet("utf8mb4")
                 .UseCollation("utf8mb4_0900_ai_ci");
 
-            modelBuilder.Entity<Chamado>(entity =>
+            modelBuilder.Entity<ChamadoDTO>(entity =>
             {
                 entity.ToTable("chamado");
 
@@ -89,7 +89,7 @@ namespace SenaiChamados.Models
                     .HasConstraintName("chamado_ibfk_2");
             });
 
-            modelBuilder.Entity<Material>(entity =>
+            modelBuilder.Entity<MaterialDTO>(entity =>
             {
                 entity.ToTable("material");
 
@@ -110,7 +110,7 @@ namespace SenaiChamados.Models
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Prioridade>(entity =>
+            modelBuilder.Entity<PrioridadeDTO>(entity =>
             {
                 entity.ToTable("prioridade");
 
@@ -119,7 +119,7 @@ namespace SenaiChamados.Models
                     .HasMaxLength(30);
             });
 
-            modelBuilder.Entity<RegistroMaterial>(entity =>
+            modelBuilder.Entity<RegistroMaterialDTO>(entity =>
             {
                 entity.HasNoKey();
 
@@ -140,7 +140,7 @@ namespace SenaiChamados.Models
                     .HasConstraintName("registromateriais_ibfk_1");
             });
 
-            modelBuilder.Entity<Setor>(entity =>
+            modelBuilder.Entity<SetorDTO>(entity =>
             {
                 entity.ToTable("setor");
 
@@ -152,7 +152,7 @@ namespace SenaiChamados.Models
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<StatusChamado>(entity =>
+            modelBuilder.Entity<StatusChamadoDTO>(entity =>
             {
                 entity.ToTable("statuschamado");
 
@@ -161,7 +161,7 @@ namespace SenaiChamados.Models
                     .HasMaxLength(30);
             });
 
-            modelBuilder.Entity<TipoUsuario>(entity =>
+            modelBuilder.Entity<TipoUsuarioDTO>(entity =>
             {
                 entity.ToTable("tipousuario");
 
@@ -173,7 +173,7 @@ namespace SenaiChamados.Models
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Usuario>(entity =>
+            modelBuilder.Entity<UsuarioDTO>(entity =>
             {
                 entity.ToTable("usuario");
 

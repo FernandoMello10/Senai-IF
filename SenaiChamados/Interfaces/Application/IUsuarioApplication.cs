@@ -1,4 +1,4 @@
-﻿using SenaiChamados.Models;
+﻿using SenaiChamados.Domain;
 using SenaiChamados.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,11 +9,12 @@ namespace SenaiChamados.Interfaces.Application
 {
     public interface IUsuarioApplication
     {
-        IEnumerable<Usuario> GetAll();
+        IEnumerable<UsuarioDTO> BuscarTodos();
         TokenViewModel Login(LoginViewModel loginModel);
-        void Save(Usuario newModel);
-        void Update(Usuario updatedModel);
-        void Delete(int id);
-        Usuario GetByID(int id);
+        void Cadastrar(UsuarioDTO modeloNovo);
+        void Atualizar(UsuarioDTO modeloAtualizado);
+        void Deletar(int id);
+        UsuarioDTO BuscarPorID(int id);
+        void Cadastrar(CadastroViewModel cadastroModel);
     }
 }

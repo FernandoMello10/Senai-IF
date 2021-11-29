@@ -2,12 +2,12 @@
 
 namespace SenaiChamados.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
-        void Save(T newModel);
-        void Update(T updatedModel);
-        void Delete(int id);
-        T GetByID(int id);
-        IEnumerable<T> GetAll();
+        IEnumerable<T> BuscarTodos();
+        T BuscarPorID(int id);
+        void Salvar(T modeloNovo);
+        void Atualizar(T modeloAtualizado);
+        void Deletar(int id);
     }
 }

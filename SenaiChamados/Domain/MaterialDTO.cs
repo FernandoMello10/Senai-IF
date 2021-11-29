@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace SenaiChamados.Models
+namespace SenaiChamados.Domain
 {
-    public partial class Material
+    public partial class MaterialDTO
     {
         public int Id { get; set; }
         public string Nome { get; set; }
