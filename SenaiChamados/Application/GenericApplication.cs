@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SenaiChamados.Application
 {
-    public abstract class GenericApplication<TModel, TEntity> : IGenericApplication<TModel> 
+    public abstract class GenericApplication<TModel, TEntity> : IGenericApplication<TModel, TEntity> 
         where TModel : class where TEntity : class
     {
         private IGenericRepository<TEntity> _repo { get; set; }
@@ -15,9 +15,9 @@ namespace SenaiChamados.Application
             _repo = repositorio;
         }
 
-        public void Atualizar(TModel modeloAtualizado)
+        public void Atualizar(TEntity modeloAtualizado)
         {
-            _repo.Atualizar(BuildDTO(modeloAtualizado));
+            _repo.Atualizar(modeloAtualizado);
         }
 
         public TModel BuscarPorID(int id)
@@ -30,9 +30,9 @@ namespace SenaiChamados.Application
             return _repo.BuscarTodos().Select(dto => BuildModel(dto));
         }
 
-        public void Salvar(TModel modeloNovo)
+        public void Salvar(TEntity modeloNovo)
         {
-            _repo.Salvar(BuildDTO(modeloNovo));
+            _repo.Salvar(modeloNovo);
         }
 
         public void Deletar(int id)
@@ -41,7 +41,5 @@ namespace SenaiChamados.Application
         }
 
         protected abstract TModel BuildModel(TEntity dto);
-
-        protected abstract TEntity BuildDTO(TModel dto);
     }
 }

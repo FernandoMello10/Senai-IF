@@ -49,7 +49,7 @@ namespace SenaiChamados
 
         private static void SetupDbContext(IServiceCollection services)
         {
-            var connectionString = "server=localhost;user=root;senha=Senai@132;database=SenaiChamados";
+            var connectionString = "server=localhost;user=root;password=Senai@132;database=SenaiChamados";
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
             
             services.AddDbContext<SenaiChamadosContext>(
@@ -91,8 +91,8 @@ namespace SenaiChamados
             services.AddTransient<IUsuarioApplication, UsuarioApplication>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 
-            services.AddTransient<IGenericApplication<UsuarioModel>, GenericApplication<UsuarioModel, UsuarioDTO>>();
-            services.AddTransient<IGenericApplication<SetorModel>, GenericApplication<SetorModel, SetorDTO>>();
+            services.AddTransient<IGenericApplication<UsuarioModel, UsuarioDTO>, GenericApplication<UsuarioModel, UsuarioDTO>>();
+            services.AddTransient<IGenericApplication<SetorModel, SetorDTO>, GenericApplication<SetorModel, SetorDTO>>();
 
             services.AddTransient<IGenericRepository<UsuarioDTO>, GenericRepository<UsuarioDTO>>();
             services.AddTransient<IGenericRepository<SetorDTO>, GenericRepository<SetorDTO>>();

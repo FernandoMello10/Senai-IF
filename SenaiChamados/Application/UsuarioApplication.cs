@@ -11,17 +11,14 @@ using System.Security.Claims;
 using System.Text;
 using SenaiChamados.Models.Enums;
 using System.Text.RegularExpressions;
+using SenaiChamados.Models;
 
 namespace SenaiChamados.Application
 {
-    public class UsuarioApplication : IUsuarioApplication
+    public class UsuarioApplication : GenericApplication<UsuarioModel, UsuarioDTO>, IUsuarioApplication
     {
-        private readonly IUsuarioRepository _repo;
-
-        public UsuarioApplication(IUsuarioRepository UsuarioRepository)
-        {
-            _repo = UsuarioRepository;
-        }
+        private IUsuarioRepository _repo { get; set; }
+        public UsuarioApplication(IUsuarioRepository repository) : base(repository) { _repo = repository;  }
 
         #region Cadastrar
         public void Cadastrar(CadastroViewModel cadastroModel)
@@ -70,21 +67,7 @@ namespace SenaiChamados.Application
         }
         #endregion Cadastrar
 
-        public void Deletar(int id)
-        {
-            _repo.Deletar(id);
-        }
-
-        public IEnumerable<UsuarioDTO> BuscarTodos()
-        {
-            return _repo.BuscarTodos();
-        }
-
-        public UsuarioDTO BuscarPorID(int id)
-        {
-            return _repo.BuscarPorID(id);
-        }
-
+        #region Login
         public TokenViewModel Login(LoginViewModel loginModel)
         {
             var usuarioLogado = _repo.BuscarEmailSenha(loginModel.Email, CryptographyHelper.ToMD5(loginModel.Senha));
@@ -117,17 +100,14 @@ namespace SenaiChamados.Application
                 Token = new JwtSecurityTokenHandler().WriteToken(token)
             };
         }
+        #endregion Login
 
-        public void Cadastrar(UsuarioDTO modeloNovo)
+        #region BuildModel
+
+        protected override UsuarioModel BuildModel(UsuarioDTO dto)
         {
-            modeloNovo.Senha = CryptographyHelper.ToMD5(modeloNovo.Senha);
-
-            _repo.Salvar(modeloNovo);
+            throw new NotImplementedException();
         }
-
-        public void Atualizar(UsuarioDTO modeloAtualizado)
-        {
-            _repo.Atualizar(modeloAtualizado);
-        }
+        #endregion BuildModel
     }
 }

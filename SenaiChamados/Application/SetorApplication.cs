@@ -10,12 +10,6 @@ namespace SenaiChamados.Application
     {
         public SetorApplication(IGenericRepository<SetorDTO> repositorio) : base(repositorio) { }
 
-        protected override SetorDTO BuildDTO(SetorModel model) => new()
-        {
-            Id = model.Id,
-            Descricao = model.Descricao
-        };
-
         protected override SetorModel BuildModel(SetorDTO dto) => new()
         {
             Id = dto.Id,

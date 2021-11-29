@@ -4,7 +4,7 @@ using SenaiChamados.Models;
 
 namespace SenaiChamados.Interfaces.Application
 {
-    public interface ISetorApplication : IGenericApplication<SetorModel>
+    public interface ISetorApplication : IGenericApplication<SetorModel, SetorDTO>
     {
 
     }

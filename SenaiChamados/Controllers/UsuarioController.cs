@@ -98,11 +98,16 @@ namespace SenaiChamados.Controllers
             }
         }
 
+        /// <summary>
+        /// NÃO USE
+        /// </summary>
+        /// <param name="modeloNovo"></param>
+        /// <returns></returns>
         public IActionResult Salvar(UsuarioDTO modeloNovo)
         {
             try
             {
-                _application.Cadastrar(modeloNovo);
+                _application.Salvar(modeloNovo);
                 return StatusCode(204);
             }
             catch(Exception ex)
