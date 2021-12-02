@@ -58,7 +58,11 @@ class Cadastro extends Component
     {
         return(
             <main className="main-cd">
-            <div className="barraLateral-cd"></div>
+            <div className="barraLateral-cd">
+            <div className="letra-lg">
+                            <p> Bem-vindo de volta!<br/>Entre com seu email da empresa</p>
+               </div>
+            </div>
             <section className="section-cd">
                 <div className="header-cd">
                     <p>Cadastre-se</p>

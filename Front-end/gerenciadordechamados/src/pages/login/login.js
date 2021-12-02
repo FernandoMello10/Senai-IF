@@ -14,6 +14,13 @@ class Login extends Component {
             isloading : false
         }
     };
+    
+    atualizarState = (state) => {
+        this.setState({ [state.target.name] : state.target.value})
+
+        console.log(this.state.email)
+        console.log(this.state.senha)
+    }
         efetuaLogin = (event) => {
             event.preventDefafault();
 
@@ -46,13 +53,18 @@ class Login extends Component {
             {
                 return(
                 <main className="main-lg">
-                    <div className="barraLateral-lg"></div>
+                    <div className="barraLateral-lg">
+                        <div className="letra-lg">
+                            <p> Bem-vindo de volta!<br/>Entre com seu email da empresa</p>
+                        </div>
+                    </div>
                     <section className="section-lg">
                         <div className="header-lg">
                             <p>login</p>
                         </div>
             
                         <div className="login-lg">
+                            
             
                             <div className="meio1-lg">
                                 <div className="linha-lg"></div>
@@ -80,7 +92,7 @@ class Login extends Component {
                                     </form>
         
                                     <div className="msm-cad-lg">
-                                        <p className="msm-p-lg">Não tem Login?</p>
+                                        <p className="msm-p-lg">Não tem conta?</p>
                                         <Link to="/cadastro" className="msm-p2-lg">Cadastre-se</Link>
                                     </div>
             
