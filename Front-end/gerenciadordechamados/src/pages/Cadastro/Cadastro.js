@@ -13,20 +13,11 @@ class Cadastro extends Component
             Telefone : '',
             Email : '',
             Senha : '',
-            ConfirmarSenha : '',
             erroMensagem : '',
             isloading : false
-            // tipoUsuario : Boolean,
         }
     }
-
-    atualizarState = (state) => {
-        this.setState({ [state.target.name] : state.target.value})
-
-        console.log(this.state.nomeUsuario)
-        console.log(this.state.email)
-        console.log(this.state.senha)
-    }
+npm
     cadastro = (event) =>{
         event.preventDefault()
 
@@ -36,8 +27,8 @@ class Cadastro extends Component
             body : JSON.stringify({
                 nomeUsuario    : this.state.nomeUsuario,
                 email       : this.state.email,
-                senha       : this.state.senha,
-                // tipoUsuario : this.state.tipoUsuario    
+                Setor       : this.state.setor,
+                senha       : this.state.senha    
             }),
 
             headers : {
@@ -82,10 +73,14 @@ class Cadastro extends Component
                                 <div className="metadeForm-cd">
     
                                     <input className="input-cd" type="text" placeholder="Nome" name="nomeUsuario" value={this.state.nomeUsuario} onChange={this.atualizarState}/>
-    
+                                    
+                                    <input className="input-cd" type="setor" placeholder="setor" name="setor" value={this.state.setor} onChange={this.atualizarState}/>
+
                                     <input className="input-cd" type="text" placeholder="email" name="email" value={this.state.email} onChange={this.atualizarState}/>
-        
+
                                     <input className="input-cd" type="password" placeholder="senha" name="senha" value={this.state.senha} onChange={this.atualizarState}/>
+
+
                                 </div>
     
                                 <div className="btn-cd">

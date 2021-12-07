@@ -176,7 +176,9 @@ form{
 .btn-lg{
     height: 30%;
     width: 100%;
-    /* background-color: yellowgreen; */
+    padding-top: 20px;
+ 
+  /*  background-color: yellowgreen; */ 
 
     margin-top: 30px;
     display: flex;
@@ -184,16 +186,15 @@ form{
     justify-content: space-between;
     align-items: center;
 
+
 }
 
 .btn-lg button{
     width: 80%;
     height: 70%;
-
     background-color: #DB324A;
     border-radius: 82px;
-
-    font-size: 40px;
+    font-size: 35px;
     font-family: Rajdhani;
     text-transform: uppercase;
     font-weight: bold;
